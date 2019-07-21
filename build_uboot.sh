@@ -6,7 +6,7 @@ else
     echo "source /opt/arm-linux-gnueabihf-7.4.1/setenv.sh OK"
 fi
 make clean
-make my4412_defconfig 
+make m4412_defconfig 
 #make menuconfig  ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-  -j8
 make  ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-  -j8
 if [  $? -ne 0 ];then
