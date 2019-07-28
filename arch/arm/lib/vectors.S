@@ -22,6 +22,11 @@
 #ifdef CONFIG_ARCH_K3
 	ldr     pc, _reset
 #else
+	.word 0x2000
+	.word 0x0
+	.word 0x0
+	.word 0x0
+.globl _start
 	b	reset
 #endif
 	ldr	pc, _undefined_instruction
@@ -42,7 +47,6 @@
  *************************************************************************
  */
 
-.globl _start
 
 /*
  *************************************************************************
@@ -96,7 +100,7 @@ _start:
  *
  *************************************************************************
  */
-
+/*
 	.globl  _reset
 	.globl	_undefined_instruction
 	.globl	_software_interrupt
@@ -105,7 +109,7 @@ _start:
 	.globl	_not_used
 	.globl	_irq
 	.globl	_fiq
-
+*/
 #ifdef CONFIG_ARCH_K3
 _reset:			.word reset
 #endif

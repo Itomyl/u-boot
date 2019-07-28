@@ -7,6 +7,7 @@
  */
 
 #include <common.h>
+#include <debug_uart.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -44,6 +45,7 @@ __weak void arch_setup_gd(struct global_data *gd_ptr)
 
 ulong board_init_f_alloc_reserve(ulong top)
 {
+//        printascii("uboot runnig.\r\n");
 	/* Reserve early malloc arena */
 #if CONFIG_VAL(SYS_MALLOC_F_LEN)
 	top -= CONFIG_VAL(SYS_MALLOC_F_LEN);

@@ -1,0 +1,16 @@
+if TARGET_M4412
+
+config M4412
+       default y
+       bool "For CONFIG_M4412"
+
+config SYS_BOARD
+       default "m4412"
+
+config SYS_VENDOR
+       default "samsung"
+
+config SYS_CONFIG_NAME
+       default "m4412"
+
+endif

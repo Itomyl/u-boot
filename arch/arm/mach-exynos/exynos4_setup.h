@@ -5,8 +5,8 @@
  * Copyright (C) 2011 Samsung Electronics
  */
 
-#ifndef _ORIGEN_SETUP_H
-#define _ORIGEN_SETUP_H
+#ifndef _M4412_SETUP_H
+#define _M4412_SETUP_H
 
 #include <config.h>
 #include <asm/arch/cpu.h>
@@ -433,7 +433,7 @@ struct mem_timings {
 #define ABP_SFR_SLV1_SINGLE_ADDRMAP_START_OFFSET	0x828
 #define ABP_SFR_SLV1_SINGLE_ADDRMAP_END_OFFSET	0x830
 
-#ifdef CONFIG_ORIGEN
+#if (defined CONFIG_ORIGEN) || (defined CONFIG_TINY4412)
 /* Interleave: 2Bit, Interleave_bit1: 0x15, Interleave_bit0: 0x7 */
 #define APB_SFR_INTERLEAVE_CONF_VAL	0x20001507
 #define APB_SFR_ARBRITATION_CONF_VAL	0x00000001
@@ -505,7 +505,7 @@ struct mem_timings {
 #define ADD_LAT_PALL		(1 << 6)
 #define MEM_TYPE_DDR3		(0x6 << 8)
 #define MEM_WIDTH_32		(0x2 << 12)
-#define NUM_CHIP_2		(1 << 16)
+#define NUM_CHIP_2		(0 << 16)
 #define BL_8			(0x3 << 20)
 #define MEMCONTROL_VAL		(CLK_STOP_DISABLE | DPWRDN_DISABLE\
 				| DPWRDN_TYPE | TP_DISABLE | DSREF_DIABLE\
@@ -514,16 +514,16 @@ struct mem_timings {
 
 
 #define CHIP_BANK_8		(0x3 << 0)
-#define CHIP_ROW_14		(0x2 << 4)
+#define CHIP_ROW_14		(0x3 << 4)
 #define CHIP_COL_10		(0x3 << 8)
 #define CHIP_MAP_INTERLEAVED	(1 << 12)
-#define CHIP_MASK		(0xe0 << 16)
+#define CHIP_MASK		(0xc0 << 16)
 #ifdef CONFIG_MIU_LINEAR
 #define CHIP0_BASE		(0x40 << 24)
 #define CHIP1_BASE		(0x60 << 24)
 #else
-#define CHIP0_BASE		(0x20 << 24)
-#define CHIP1_BASE		(0x40 << 24)
+#define CHIP0_BASE		(0x40 << 24)
+#define CHIP1_BASE		(0x80 << 24)
 #endif
 #define MEMCONFIG0_VAL		(CHIP_BANK_8 | CHIP_ROW_14 | CHIP_COL_10\
 				| CHIP_MAP_INTERLEAVED | CHIP_MASK | CHIP0_BASE)
@@ -555,7 +555,7 @@ struct mem_timings {
 
 #define CONTROL2_VAL		0x00000000
 
-#ifdef CONFIG_ORIGEN
+#if (defined CONFIG_ORIGEN) || (defined CONFIG_M4412)
 #define TIMINGREF_VAL		0x000000BB
 #define TIMINGROW_VAL		0x4046654f
 #define	TIMINGDATA_VAL		0x46400506
