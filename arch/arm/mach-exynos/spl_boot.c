@@ -17,6 +17,8 @@
 
 #include "common_setup.h"
 #include "clock_init.h"
+#include "debug_uart.h"
+#include <configs/m4412.h> 
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -107,7 +109,7 @@ static void exynos_spi_copy(unsigned int uboot_size, unsigned int uboot_addr)
 {
 	int upto, todo;
 	int i, timeout = 100;
-	struct exynos_spi *regs = (struct exynos_spi *)CONFIG_SYS_SPI_BASE;
+	struct exynos_spi *regs = (struct exynos_spi *)CONFIG_ENV_SPI_BASE;
 
 	set_spi_clk(PERIPH_ID_SPI1, 50000000); /* set spi clock to 50Mhz */
 	/* set the spi1 GPIO */
@@ -228,7 +230,7 @@ void copy_uboot_to_ram(void)
 #ifdef CONFIG_SUPPORT_EMMC_BOOT
 	case BOOT_MODE_EMMC:
 		/* Set the FSYS1 clock divisor value for EMMC boot */
-//		emmc_boot_clk_div_set();
+		//emmc_boot_clk_div_set();
 
 		copy_bl2_from_emmc = get_irom_func(EMMC44_INDEX);
 		end_bootop_from_emmc = get_irom_func(EMMC44_END_INDEX);
@@ -275,8 +277,10 @@ void memzero(void *s, size_t n)
  */
 static void setup_global_data(gd_t *gdp)
 {
+    //ok yt
 	gd = gdp;
 	memzero((void *)gd, sizeof(gd_t));
+	//ok
 	gd->flags |= GD_FLG_RELOC;
 	gd->baudrate = CONFIG_BAUDRATE;
 	gd->have_console = 1;
@@ -284,16 +288,29 @@ static void setup_global_data(gd_t *gdp)
 
 void board_init_f(unsigned long bootflag)
 {
+    //ok yt
+	unsigned long i;
 	__aligned(8) gd_t local_gd;
 	__attribute__((noreturn)) void (*uboot)(void);
 
 	setup_global_data(&local_gd);
 
+	//ok yt
 	if (do_lowlevel_init())
 		power_exit_wakeup();
-
+	printascii("lowlevel init ok.\n\r");
 	copy_uboot_to_ram();
+	printascii("copy uboot to ram end.\n\r");
+        for (i = 1; i < 45; i++){
+                printhex8(readl(CONFIG_SYS_TEXT_BASE + (4 * (i - 1))));
+                printascii(" ");
+                if (i % 4 == 0){
+                        printascii("\n\r");
+                }
+        }
+        printascii("print end \n\r");
 
+	printascii("copy_uboot_to_ram and jump to uboot.\n\r");
 	/* Jump to U-Boot image */
 	uboot = (void *)CONFIG_SYS_TEXT_BASE;
 	(*uboot)();

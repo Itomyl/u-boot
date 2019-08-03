@@ -517,7 +517,7 @@ struct mem_timings {
 #define CHIP_ROW_14		(0x3 << 4)
 #define CHIP_COL_10		(0x3 << 8)
 #define CHIP_MAP_INTERLEAVED	(1 << 12)
-#define CHIP_MASK		(0xc0 << 16)
+#define CHIP_MASK		(0xC0 << 16)
 #ifdef CONFIG_MIU_LINEAR
 #define CHIP0_BASE		(0x40 << 24)
 #define CHIP1_BASE		(0x60 << 24)

@@ -135,6 +135,7 @@
 
 /* MIU (Memory Interleaving Unit) */
 #define CONFIG_MIU_2BIT_21_7_INTERLEAVED
+
 /*
  *SD MMC layout:
  *+------+---------+----------+------------+-----------+-----------+
@@ -147,16 +148,13 @@
  *
  */
 
-
-#define CONFIG_SYS_MMC_ENV_DEV		2
+#define CONFIG_SYS_MMC_ENV_DEV		0
 #define CONFIG_ENV_SIZE			(16 << 10)    /* 16 KB */
 #define RESERVE_BLOCK_SIZE		(512)
 #define BL1_SIZE			(8 << 10)  /*8 K reserved for BL1*/
 #define BL2_SIZE			(16 << 10) /*16 k reserved for BL2*/
 #define TZSW_SIZE			(92 << 10)	/* 92K tzsw size */
 #define CONFIG_ENV_OFFSET		(RESERVE_BLOCK_SIZE + BL1_SIZE + BL2_SIZE + COPY_BL2_SIZE + TZSW_SIZE)
-
-#define CONFIG_SPL_MAX_FOOTPRINT	(14 * 1024)
 #define CONFIG_SPL_LDSCRIPT		"board/samsung/common/exynos-uboot-spl.lds"
 #define CONFIG_SPL_MAX_FOOTPRINT	(14 * 1024)
 

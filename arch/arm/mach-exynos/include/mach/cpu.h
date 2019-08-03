@@ -203,6 +203,7 @@ static inline int s5p_get_cpu_rev(void)
 
 static inline void s5p_set_cpu_id(void)
 {
+    //ok
 	unsigned int pro_id = readl(EXYNOS4_PRO_ID);
 	unsigned int cpu_id = (pro_id & 0x00FFF000) >> 12;
 	unsigned int cpu_rev = pro_id & 0x000000FF;
@@ -220,6 +221,7 @@ static inline void s5p_set_cpu_id(void)
 		break;
 	case 0x412:
 		/* Exynos4412 */
+		//ok
 		s5p_cpu_id = 0x4412;
 		s5p_cpu_rev = cpu_rev;
 		break;
@@ -239,6 +241,7 @@ static inline void s5p_set_cpu_id(void)
 		s5p_cpu_id = 0x5422;
 		break;
 	}
+	//ok 
 }
 
 static inline char *s5p_get_cpu_name(void)

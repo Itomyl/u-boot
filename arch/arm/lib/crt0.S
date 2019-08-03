@@ -77,14 +77,10 @@ ENTRY(_main)
 	// ok yt
 	
 #endif
-	sub	sp, sp, #7	/* 8-byte alignment for ABI compliance */
-	mov     fp, #0
+	bic	r0, r0, #7	/* 8-byte alignment for ABI compliance */
 	mov	sp, r0
 	bl	board_init_f_alloc_reserve
 	//ok yt
-
-	bl led_on_2
-
 	mov	r0, sp
 	bl	board_init_f_alloc_reserve
 	mov	sp, r0
@@ -92,16 +88,9 @@ ENTRY(_main)
 	mov	r9, r0
 	bl	board_init_f_init_reserve
 
-	bl led_on_3
-
-	bl bsp_delay
-	bl led_off_all
-
 	// ok yt
 	mov	r0, #0
 	bl	board_init_f
-
-	bl led_on_1
 
 #if ! defined(CONFIG_SPL_BUILD)
 
@@ -111,14 +100,9 @@ ENTRY(_main)
  * 'here' but relocated.
  */
 
-	ldr	sp, [r9, #GD_START_ADDR_SP]	/* sp = gd->start_addr_sp */
-#if defined(CONFIG_CPU_V7M)	/* v7M forbids using SP as BIC destination */
-	mov	r3, sp
-	bic	r3, r3, #7
-	mov	sp, r3
-#else
-	bic	sp, sp, #7	/* 8-byte alignment for ABI compliance */
-#endif
+	ldr	r0, [r9, #GD_START_ADDR_SP]	/* sp = gd->start_addr_sp */
+	bic	r0, r0, #7	/* 8-byte alignment for ABI compliance */
+	mov	sp, r0
 	ldr	r9, [r9, #GD_BD]		/* r9 = gd->bd */
 	sub	r9, r9, #GD_SIZE		/* new GD is below bd */
 
@@ -136,15 +120,6 @@ here:
  * now relocate vectors
  */
 
-// beep
-        ldr r0, =0x114000a0
-        ldr r1, [r0]
-        orr r1, r1, #0x1
-        str r1, [r0]
-        ldr r0, =0x114000a4
-        ldr r1, [r0]
-        orr r1, r1, #0x1
-        str r1, [r0]
 	bl	relocate_vectors
 
 /* Set up final (full) environment */
@@ -183,7 +158,6 @@ clbss_l:cmp	r0, r1			/* while not at end of BSS */
 #if ! defined(CONFIG_SPL_BUILD)
 	bl coloured_LED_init
 	bl red_led_on
-	bl led_on_2
 #endif
 	/* call board_init_r(gd_t *id, ulong dest_addr) */
 	mov     r0, r9                  /* gd_t */

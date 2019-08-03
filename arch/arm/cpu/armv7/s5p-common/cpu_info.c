@@ -18,8 +18,8 @@ unsigned int s5p_cpu_rev = 1;
 #ifdef CONFIG_ARCH_CPU_INIT
 int arch_cpu_init(void)
 {
+    //ok
 	s5p_set_cpu_id();
-
 	return 0;
 }
 #endif

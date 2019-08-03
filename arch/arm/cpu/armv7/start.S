@@ -61,10 +61,6 @@ switch_to_hypervisor_ret:
 	orr	r0, r0, #0xc0		@ disable FIQ and IRQ
 	msr	cpsr,r0
 
-	bl led_config
-	bl led_off_all
-	bl led_on_1
-
 /*
  * Setup vector:
  * (OMAP4 spl TEXT_BASE is not 32 byte aligned.
@@ -88,10 +84,69 @@ switch_to_hypervisor_ret:
 #ifdef CONFIG_CPU_V7A
 	bl	cpu_init_cp15
 #endif
+ 		/* Read booting information */
+        ldr	r0, =POWER_BASE
+        ldr	r1, [r0,#OMR_OFFSET]
+        bic	r2, r1, #0xffffffc1
+
+	/* NAND BOOT */
+@	cmp	r2, #0x0		@ 512B 4-cycle
+@	moveq	r3, #BOOT_NAND
+
+@	cmp	r2, #0x2		@ 2KB 5-cycle
+@	moveq	r3, #BOOT_NAND
+
+@	cmp	r2, #0x4		@ 4KB 5-cycle	8-bit ECC
+@	moveq	r3, #BOOT_NAND
+
+	cmp     r2, #0xA
+        moveq   r3, #BOOT_ONENAND
+
+@	cmp	r2, #0x6		@ 4KB 5-cycle	16-bit ECC
+@	moveq	r3, #BOOT_NAND
+
+	/* SD/MMC BOOT */
+	cmp     r2, #0x4
+        moveq   r3, #BOOT_MMCSD	
+
+	/* eMMC4.3 BOOT */
+	cmp		r2, #0x6
+	moveq	r3, #BOOT_EMMC43
+
+	/* eMMC441 BOOT */
+	cmp		r2, #0x28
+	moveq	r3, #BOOT_EMMC441
+	
+        /* NOR BOOT */
+@	cmp     r2, #0x14
+@	moveq   r3, #BOOT_NOR	
+
+	/* For second device booting */
+	/* OneNAND BOOTONG failed */
+@	cmp     r2, #0x8
+@	moveq   r3, #BOOT_SEC_DEV
+
+	/* Uart BOOTONG failed */
+@	cmp     r2, #(0x1<<4)
+@	moveq   r3, #BOOT_SEC_DEV
+	
+	ldr	r0, =INF_REG_BASE
+	str	r3, [r0, #INF_REG3_OFFSET]     
+
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT_ONLY
 	bl	cpu_init_crit
+	        // beep
+         ldr r0, =0x114000a0
+         ldr r1, [r0]
+         orr r1, r1, #0x1
+         str r1, [r0]
+         ldr r0, =0x114000a4
+         ldr r1, [r0]
+         orr r1, r1, #0x1
+         str r1, [r0]
 #endif
 #endif
+
 
 	bl	_main
 
