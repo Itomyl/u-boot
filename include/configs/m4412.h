@@ -70,7 +70,6 @@
 #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_SDRAM_BASE + 0x6000000)
 #define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + 0x3E00000)
 
-//#define CONFIG_SYS_TEXT_BASE		0x43E00000 
 
 /* select serial console configuration */
 #define CONFIG_SERIAL2
@@ -92,7 +91,6 @@
 /* MMC SPL */
 #define COPY_BL2_FNPTR_ADDR		0x02020030
 /* Because bl1 will copy bl2(spl) to iram address 0x02023400 */
-//#define CONFIG_SPL_TEXT_BASE		0x02023400
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 					"loadaddr=0x40007000\0" \

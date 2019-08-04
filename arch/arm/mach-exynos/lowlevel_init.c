@@ -217,17 +217,15 @@ int do_lowlevel_init(void)
 	if (actions & DO_CLOCKS) {
 		system_clock_init();
 #ifdef CONFIG_DEBUG_UART
-//#if (defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_SERIAL_SUPPORT)) || !defined(CONFIG_SPL_BUILD)
+#if (defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_SERIAL_SUPPORT)) || \
+    !defined(CONFIG_SPL_BUILD)
 		exynos_pinmux_config(PERIPH_ID_UART0, PINMUX_FLAG_NONE);
 		debug_uart_init();
-		printascii("UART OK \n\r");
-//#endif
+		printascii("[SPL] USART INIT .......... OK!\n");
+#endif
 #endif
 		mem_ctrl_init(actions & DO_MEM_RESET);
-		printascii("mem ctrl init ok \n\r");
-		tzpc_init();
-		printascii("tzpc_init ok \n\r");
+/*		tzpc_init();  */
 	}
-
 	return actions & DO_WAKEUP;
 }

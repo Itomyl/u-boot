@@ -49,6 +49,8 @@ save_boot_params_ret:
 	beq	switch_to_hypervisor
 switch_to_hypervisor_ret:
 #endif
+
+	
 	/*
 	 * disable interrupts (FIQ and IRQ), also set the cpu to SVC32 mode,
 	 * except if in HYP mode already
@@ -61,6 +63,10 @@ switch_to_hypervisor_ret:
 	orr	r0, r0, #0xc0		@ disable FIQ and IRQ
 	msr	cpsr,r0
 
+	bl led_config
+	bl led_off_all
+	bl led_on_1
+
 /*
  * Setup vector:
  * (OMAP4 spl TEXT_BASE is not 32 byte aligned.
@@ -72,25 +78,21 @@ switch_to_hypervisor_ret:
 	bic	r0, #CR_V		@ V = 0
 	mcr	p15, 0, r0, c1, c0, 0	@ Write CP15 SCTLR Register
 
-#ifdef CONFIG_HAS_VBAR
 	/* Set vector address in CP15 VBAR register */
 	ldr	r0, =_start
 	mcr	p15, 0, r0, c12, c0, 0	@Set VBAR
 #endif
-#endif
 
 	/* the mask ROM code should have PLL and others stable */
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
-#ifdef CONFIG_CPU_V7A
-	bl	cpu_init_cp15
-#endif
+      bl	cpu_init_cp15
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT_ONLY
-	bl	cpu_init_crit
+      bl	cpu_init_crit
 #endif
 #endif
-
 
 	bl	_main
+
 
 /*------------------------------------------------------------------------------*/
 
