@@ -161,17 +161,7 @@ endif
 config SYS_SOC
 	default "exynos"
 
-source "board/samsung/smdkv310/Kconfig"
-source "board/samsung/trats/Kconfig"
-source "board/samsung/universal_c210/Kconfig"
-source "board/samsung/origen/Kconfig"
 source "board/samsung/m4412/Kconfig"
-source "board/samsung/trats2/Kconfig"
-source "board/samsung/odroid/Kconfig"
-source "board/samsung/arndale/Kconfig"
-source "board/samsung/smdk5250/Kconfig"
-source "board/samsung/smdk5420/Kconfig"
-source "board/samsung/espresso7420/Kconfig"
 
 config SPL_LDSCRIPT
 	default "board/samsung/common/exynos-uboot-spl.lds" if ARCH_EXYNOS5 || ARCH_EXYNOS4

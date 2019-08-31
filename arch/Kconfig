@@ -272,16 +272,4 @@ config SYS_DISABLE_DCACHE_OPS
 	 Note that, its up to the individual architectures to implement
 	 this functionality.
 
-source "arch/arc/Kconfig"
 source "arch/arm/Kconfig"
-source "arch/m68k/Kconfig"
-source "arch/microblaze/Kconfig"
-source "arch/mips/Kconfig"
-source "arch/nds32/Kconfig"
-source "arch/nios2/Kconfig"
-source "arch/powerpc/Kconfig"
-source "arch/sandbox/Kconfig"
-source "arch/sh/Kconfig"
-source "arch/x86/Kconfig"
-source "arch/xtensa/Kconfig"
-source "arch/riscv/Kconfig"
