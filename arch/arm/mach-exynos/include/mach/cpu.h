@@ -200,14 +200,23 @@ static inline int s5p_get_cpu_rev(void)
 {
 	return s5p_cpu_rev;
 }
-
+static inline void beep_no(void)
+{
+    unsigned long value = 0;
+    unsigned long vdat = 0;
+     value = *((unsigned long volatile *)(0x114000a0));
+     value |= 0x1;
+     *((unsigned long  volatile *)(0x114000a0)) = value;
+     vdat = *((unsigned long volatile *)(0x114000a4));
+     vdat |= 0x1;
+     *((unsigned long  volatile *)(0x114000a4)) = vdat;
+}
 static inline void s5p_set_cpu_id(void)
 {
     //ok
-	unsigned int pro_id = readl(EXYNOS4_PRO_ID);
+	unsigned int pro_id = readl(EXYNOS4_PRO_ID);// 0xE441 2000
 	unsigned int cpu_id = (pro_id & 0x00FFF000) >> 12;
 	unsigned int cpu_rev = pro_id & 0x000000FF;
-
 	switch (cpu_id) {
 	case 0x200:
 		/* Exynos4210 EVT0 */
@@ -223,6 +232,7 @@ static inline void s5p_set_cpu_id(void)
 		/* Exynos4412 */
 		//ok
 		s5p_cpu_id = 0x4412;
+		beep_no();
 		s5p_cpu_rev = cpu_rev;
 		break;
 	case 0x520:
